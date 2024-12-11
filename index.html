@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <h2> Find specific words in a array and find the repeated characters.</h2>
+
+    <label for="arrayInput">Enter Arrays </label>
+    <input type="text" id="arrayInput">
+
+    <br><br>
+
+    <label for="wordInput">Enter Word to Search </label>
+    <input type="text" id="wordInput">
+    <button onclick="findResults()">Find</button>
+
+    <h3>Results</h3>
+    <p><strong>Found Words: </strong><span id="foundWords"></span></p>
+    <p><strong>Repeated Characters: </strong><span id="repeatedCharacters"></span></p>
+
+    <script>
+        function findResults() {
+         
+            const wordsArray = document.getElementById("arrayInput").value.split(',').map(word => word.trim().toLowerCase());
+            const searchWord = document.getElementById("wordInput").value.toLowerCase();
+
+            const foundWords = wordsArray.filter(word => word.includes(searchWord));
+
+            document.getElementById("foundWords").textContent = foundWords.join(", ") || "No words found.";
+
+         
+            let repeatedChars = findRepeatedChars(foundWords);
+
+            document.getElementById("repeatedCharacters").textContent = repeatedChars || "No repeated characters.";
+        }
+
+        function findRepeatedChars(words) {
+            let charCount = {};
+            let repeated = "";
+
+            words.forEach(word => {
+                for (let char of word) {
+                    charCount[char] = (charCount[char] || 0) + 1;
+                }
+            });
+
+            for (let char in charCount) {
+                if (charCount[char] > 1) {
+                    repeated += `${char}: ${charCount[char]} times\n`;
+                }
+            }
+
+            return repeated;
+        }
+    </script>
+
+</body>
+</html>
